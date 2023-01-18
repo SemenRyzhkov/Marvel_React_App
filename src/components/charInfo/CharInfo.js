@@ -1,5 +1,6 @@
 import "./charInfo.scss";
 import { Component } from "react";
+import PropTypes from "prop-types";
 import MarvelService from "../../services/MarvelService";
 
 import Spinner from "../spinner/Spinner";
@@ -19,7 +20,7 @@ class CharInfo extends Component {
     this.updateChar();
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (this.props.charID !== prevProps.charID) {
       this.updateChar();
     }
@@ -27,7 +28,6 @@ class CharInfo extends Component {
 
   updateChar = () => {
     const { charID } = this.props;
-    console.log(charID);
     if (!charID) {
       return;
     }
@@ -116,6 +116,10 @@ const View = ({ char }) => {
       </ul>
     </>
   );
+};
+
+CharInfo.propTypes = {
+  charID: PropTypes.string,
 };
 
 export default CharInfo;
