@@ -1,18 +1,17 @@
-import "./charInfo.scss";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import MarvelService from "../../services/MarvelService";
 
+import useMarvelService from "../../services/MarvelService";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import Skeleton from "../skeleton/Skeleton";
 
-const CharInfo = (props) => {
-  const marvelService = new MarvelService();
+import "./charInfo.scss";
 
+const CharInfo = (props) => {
   const [char, setChar] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+
+  const { loading, error, getCharacter, clearError } = useMarvelService();
   // componentDidMount() {
   //   this.updateChar();
   // }
@@ -23,29 +22,22 @@ const CharInfo = (props) => {
   //   }
   // }
 
+  useEffect(() => {
+    updateChar();
+  }, [props.charId]);
+
   const updateChar = () => {
-    const { charID } = props;
-    if (!charID) {
+    const { charId } = props;
+    if (!charId) {
       return;
     }
-    onCharLoading();
-    marvelService.getCharacter(charID).then(onCharLoaded).catch(onError);
-  };
 
-  useEffect(() => updateChar(), [props.charID]);
+    clearError();
+    getCharacter(charId).then(onCharLoaded);
+  };
 
   const onCharLoaded = (char) => {
-    setLoading(false);
     setChar(char);
-  };
-
-  const onCharLoading = () => {
-    setLoading(true);
-  };
-
-  const onError = () => {
-    setError(true);
-    setLoading(false);
   };
 
   const skeleton = char || loading || error ? null : <Skeleton />;
@@ -73,6 +65,7 @@ const View = ({ char }) => {
   ) {
     imgStyle = { objectFit: "contain" };
   }
+
   return (
     <>
       <div className="char__basics">
@@ -108,7 +101,7 @@ const View = ({ char }) => {
 };
 
 CharInfo.propTypes = {
-  charID: PropTypes.number,
+  charId: PropTypes.number,
 };
 
 export default CharInfo;

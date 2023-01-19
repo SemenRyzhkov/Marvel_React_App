@@ -3,9 +3,12 @@ import AppHeader from "../appHeader/AppHeader";
 import RandomChar from "../randomChar/RandomChar";
 import CharList from "../charList/CharList";
 import CharInfo from "../charInfo/CharInfo";
+import ComicsInfo from "../comicsList/ComicsList";
+
 import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 
 import decoration from "../../resources/img/vision.png";
+import ComicsList from "../comicsList/ComicsList";
 
 const App = () => {
   const [charId, setCharId] = useState(0);
@@ -17,6 +20,9 @@ const App = () => {
       <AppHeader />
       <main>
         <ErrorBoundary>
+          <ComicsList />
+        </ErrorBoundary>
+        {/* <ErrorBoundary>
           <RandomChar />
         </ErrorBoundary>
         <div className="char__content">
@@ -24,9 +30,9 @@ const App = () => {
             <CharList onCharSelected={onCharSelected} />
           </ErrorBoundary>
           <ErrorBoundary>
-            <CharInfo charID={charId} />
+            <CharInfo charId={charId} />
           </ErrorBoundary>
-        </div>
+        </div> */}
         <img className="bg-decoration" src={decoration} alt="vision" />
       </main>
     </div>
